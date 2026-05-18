@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGBB PRO AI - Elite Performance v9.5</title>
+  <title>AGBB PRO AI - Elite Performance v9.6</title>
   
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
@@ -212,7 +212,7 @@
     .exo-form { display: flex; flex-direction: column; gap: 18px; }
     .exo-form label { font-weight: 700; font-size: 0.9rem; color: #cbd5e0; text-transform: uppercase; margin-bottom: -10px; }
     
-    .exo-viewer { background: var(--agbb-card-bg); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); padding: 25px; text-align: center; }
+    .exo-viewer { background: var(--agbb-card-bg); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08); padding: 25px; text-align: center; }
     #exoCanvas { background: #1e4620; border-radius: 12px; border: 5px solid #fff; max-width: 100%; height: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
     .exo-desc { margin-top: 25px; text-align: left; background: #1a263f; padding: 22px; border-radius: 12px; border-left: 6px solid var(--agbb-red); }
     .exo-desc h4 { margin-top: 0; color: #fff; font-size: 1.3rem; margin-bottom: 10px; }
@@ -220,7 +220,7 @@
 
     /* MODE D'EMPLOI VISUEL */
     .help-container { max-width: 1100px; margin: 0 auto; padding: 25px; display: grid; grid-template-columns: 1fr; gap: 20px; }
-    .help-section { background: var(--agbb-card-bg); border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .help-section { background: var(--agbb-card-bg); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.08); padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .help-title { font-size: 1.4rem; color: #fff; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
     .help-step { display: flex; gap: 20px; margin-bottom: 18px; align-items: flex-start; }
     .help-num { background: var(--agbb-red); color: #fff; width: 28px; height: 28px; border-radius: 50%; font-weight: bold; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; box-shadow: 0 3px 8px rgba(178,34,52,0.4); }
@@ -235,7 +235,7 @@
   <div class="header">
     <div class="header-logo-area">
       <div style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">🛡️</div>
-      <div>AGBB AI - BEUVRY ACCADÉMIE v9.5</div>
+      <div>AGBB AI - BEUVRY ACADÉMIE v9.6</div>
     </div>
     <div>
       <span style="font-size:0.9rem; text-transform:uppercase; margin-right:5px; opacity:0.9;">Gardien ciblé :</span>
@@ -252,7 +252,7 @@
 
   <div class="tabs-nav">
     <button class="tab-btn active" onclick="switchTab('analyser')">🎥 CAPTEUR IA & ANGLE DE GARDE</button>
-    <button class="tab-btn" onclick="switchTab('exercices')">📋 BANQUE DES 60 SEANCES</button>
+    <button class="tab-btn" onclick="switchTab('exercices')">📋 BANQUE DES 60 SÉANCES</button>
     <button class="tab-btn" onclick="switchTab('aide')">💡 MODE D'EMPLOI SIMPLE</button>
   </div>
 
@@ -269,7 +269,7 @@
           <button class="btn-orange" onclick="startChallenge30s()">🏆 DEFI DES 30 SECONDES</button>
         </div>
 
-        <div id="feedback" class="status-bar" style="color: #cbd5e0;">SYSTEME PRET. EN ATTENTE DU FLUX VIDEO...</div>
+        <div id="feedback" class="status-bar" style="color: #cbd5e0;">SYSTÈME PRÊT. EN ATTENTE DU FLUX VIDÉO...</div>
         <canvas id="out_canvas" width="1280" height="720"></canvas>
         <video id="in_video" style="display:none;" playsinline muted></video>
       </div>
@@ -366,7 +366,7 @@
           <div class="help-text">
             <p>Observez le code couleur en temps réel :</p>
             <span>
-              <span class="color-box" style="background:#e53e3e; color:#fff;">ROUGE</span> : Jambes trop tendues. Le gardien est trop haut sur ses appuis et va manquer d'explosivité.<br>
+              <span class="color-box" style="background:#e53e3e; color:#fff;">ROUGE</span> : Jambes trop tendues. Le gardien est trop haut sur ses appuis.<br>
               <span class="color-box" style="background:#00ff66; color:#000;">VERT</span> : Position de garde parfaite. Flexion idéale validée selon le niveau choisi !
             </span>
           </div>
@@ -385,49 +385,14 @@
           <div class="help-num">2</div>
           <div class="help-text">
             <p>Le coach clique sur le bouton bleu <strong>"TEST DE REACTION"</strong>.</p>
-            <span>L'application affiche une alerte d'attente, puis déclenche un <strong>BIP sonore aigu</strong> de manière totalement aléatoire.</span>
+            <span>L'application affiche une alerte d'attente, puis déclenche un <strong>BIP sonore aigu</strong> de manière aléatoire.</span>
           </div>
         </div>
         <div class="help-step">
           <div class="help-num">3</div>
           <div class="help-text">
             <p>Dès le signal sonore, le gardien doit descendre le plus rapidement possible en position de garde basse.</p>
-            <span>L'IA détecte l'instant exact du début de la descente et affiche instantanément le score en millisecondes (ms). Plus le chiffre est bas, plus le gardien est rapide !</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="help-section">
-        <div class="help-title">🏆 Défi des 30 Secondes (Endurance & Posture)</div>
-        <div class="help-step">
-          <div class="help-num">1</div>
-          <div class="help-text">
-            <p>Appuyez sur le bouton orange <strong>"DEFI DES 30 SECONDES"</strong>.</p>
-            <span>Un compte à rebours de 30 secondes démarre immédiatement.</span>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="help-num">2</div>
-          <div class="help-text">
-            <p>Le gardien doit maintenir sa flexion en restant dans la zone verte sans discontinuer.</p>
-            <span>Tant que la posture est validée verte, le score augmente. Si le gardien se redresse à cause de la fatigue, les points s'arrêtent de grimper. Idéal pour instaurer des challenges au club !</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="help-section">
-        <div class="help-title">📋 Gestion des 60 Fiches d'Entraînement</div>
-        <div class="help-step">
-          <div class="help-num">1</div>
-          <div class="help-text">
-            <p>Rendez-vous dans le second onglet <strong>"BANQUE DES 60 SEANCES"</strong>.</p>
-          </div>
-        </div>
-        <div class="help-step">
-          <div class="help-num">2</div>
-          <div class="help-text">
-            <p>Sélectionnez les critères d'âge et l'objectif de séance désiré. L'application met immédiatement à disposition une série de 20 fiches évolutives.</p>
-            <span>Le tableau noir de tactique dessine instantanément les emplacements du coach, des cônes et la trajectoire des ballons avec un descriptif complet au bas de la page.</span>
+            <span>L'IA détecte l'instant exact du début de la descente et affiche le score en millisecondes (ms).</span>
           </div>
         </div>
       </div>
@@ -437,7 +402,7 @@
 
   <script>
     let targetAngle = 150, cameraActive = null;
-    let testState = "idle"; // idle, waiting_bip, bip_emitted, challenge_active
+    let testState = "idle";
     let bipTime = 0, challengeTimer = null, challengeScore = 0, challengeEnd = 0;
 
     // --- NAVIGATION DES ONGLETS ---
@@ -457,57 +422,108 @@
         }
     }
 
-    // --- BASE DE DONNÉES ACADÉMIQUE MASSIVE : 20 EXERCICES PAR FILTRE (60 AU TOTAL) ---
+    // --- BASE DE DONNÉES ACADÉMIQUE AVEC VARIATION DE DESSINS POUR CHACUN DES 60 EXERCICES ---
     const exerciseDatabase = {
         u11: {
-            plongeon: Array.from({length: 20}, (_, i) => ({
-                title: `U11 - Plongeon & Souplesse Évolution [Fiche n°${i+1}]`,
-                desc: `Situation technique progressive pour l'école de football (Fiche n°${i+1}). Objectif : Apprentissage du pas chassé et déclenchement de la poussée au sol. Le gardien part d'un plot central, se déplace latéralement sur l'indication visuelle du coach, puis effectue un plongeon de sécurité pour immobiliser le ballon rasant.`,
-                draw: (ctx) => drawFieldLayout(ctx, 360 + (i*4)%40, 420, true)
-            })),
-            face: Array.from({length: 20}, (_, i) => ({
-                title: `U11 - Réduction d'Angle & Face-à-Face [Fiche n°${i+1}]`,
-                desc: `Sensibilisation au duel et réduction d'espace (Fiche n°${i+1}). L'attaquant part de la limite des 13 mètres et conduit son ballon vers le but à vitesse modérée. Le gardien doit calquer ses appuis sur l'avancée du joueur pour fermer l'angle au moment du déclenchement de la frappe.`,
-                draw: (ctx) => drawFieldLayout(ctx, 400, 390 - (i*2), false)
-            })),
-            appuis: Array.from({length: 20}, (_, i) => ({
-                title: `U11 - Motricité, Coordination & Appuis [Fiche n°${i+1}]`,
-                desc: `Atelier d'éveil moteur spécifique au poste (Fiche n°${i+1}). Travail de fréquence d'appuis à travers un parcours composé de cerceaux ou de lattes au sol. À la sortie de la structure, le gardien réalise un replacement axial ultra rapide pour intercepter un ballon mi-hauteur.`,
-                draw: (ctx) => drawFieldLayout(ctx, 380, 410, false)
-            }))
+            plongeon: [
+                { title: "U11 - Plongeon Ex.1 : Découverte du sol", desc: "Le gardien est assis. L'éducateur roule le ballon à 1m à droite puis à gauche. Apprentissage de la pose du bassin.", draw: (ctx) => drawFieldLayout(ctx, 400, 440, false) },
+                { title: "U11 - Plongeon Ex.2 : Poussée à genoux", desc: "À genoux au centre, le gardien bascule pour capter un ballon rasant à mi-distance. Accent sur les mains derrière la balle.", draw: (ctx) => drawFieldLayout(ctx, 400, 430, false) },
+                { title: "U11 - Plongeon Ex.3 : Le pas de côté", desc: "Départ debout. Un pas chassé vers le plot orange puis plongeon contourné sur ballon lancé de volée par le coach.", draw: (ctx) => drawFieldLayout(ctx, 350, 420, true) },
+                { title: "U11 - Plongeon Ex.4 : Flanc opposé", desc: "Le gardien touche le poteau droit, puis se projette sur sa gauche sur un ballon rasant ras du poteau opposé.", draw: (ctx) => drawFieldLayout(ctx, 320, 440, false) },
+                { title: "U11 - Plongeon Ex.5 : Lecture de rebond", desc: "Frappe piquée du coach au sol. Le gardien doit ajuster son timing de plongeon pendant la phase ascendante de la balle.", draw: (ctx) => drawFieldLayout(ctx, 390, 410, true) },
+                { title: "U11 - Plongeon Ex.6 : Poussée sur latte", desc: "Franchissement d'une latte au sol en pas chassé suivi d'une extension rasante latérale immédiate.", draw: (ctx) => drawFieldLayout(ctx, 360, 425, false) },
+                { title: "U11 - Plongeon Ex.7 : Prise de balle haute", desc: "Ballon aérien lancé aux 6m. Le gardien capte en l'air et enchaîne par une roulade de protection au sol.", draw: (ctx) => drawFieldLayout(ctx, 400, 380, false) },
+                { title: "U11 - Plongeon Ex.8 : Déplacement en triangle", desc: "Le gardien contourne le plot orange, revient sur sa ligne et plonge côté bleu.", draw: (ctx) => drawFieldLayout(ctx, 450, 430, true) },
+                { title: "U11 - Plongeon Ex.9 : Récupération rapide", desc: "Premier plongeon simulé au sol, redressement et plongeon réel sur une balle relâchée par le coach.", draw: (ctx) => drawFieldLayout(ctx, 370, 440, false) },
+                { title: "U11 - Plongeon Ex.10 : Réflexe de la main", desc: "Ballon dévié par un mini-obstacle. Le gardien doit armer une main ferme en plongeon réflexe.", draw: (ctx) => drawFieldLayout(ctx, 395, 415, true) },
+                { title: "U11 - Plongeon Ex.11 : Spécifique Poteau", desc: "Plongeon sur la ligne de but pour bloquer un ballon rasant qui entrait juste à la base du poteau gauche.", draw: (ctx) => drawFieldLayout(ctx, 315, 450, false) },
+                { title: "U11 - Plongeon Ex.12 : Sortie mi-hauteur", desc: "Le coach frappe de volée à hauteur de hanche. Le gardien plonge en restant parallèle au sol.", draw: (ctx) => drawFieldLayout(ctx, 380, 420, true) },
+                { title: "U11 - Plongeon Ex.13 : Double plots", desc: "Slalom ultra-court entre 2 plots oranges puis impulsion latérale ras du sol côté droit.", draw: (ctx) => drawFieldLayout(ctx, 430, 425, false) },
+                { title: "U11 - Plongeon Ex.14 : Ballon fuyant", desc: "Frappe excentrée enroulée. Le gardien doit plonger vers l'avant pour couper la trajectoire de balle.", draw: (ctx) => drawFieldLayout(ctx, 360, 390, true) },
+                { title: "U11 - Plongeon Ex.15 : Catcher ou dévier", desc: "Consigne : Capter si possible, sinon claquette de sécurité en corner sur une frappe lourde plein angle.", draw: (ctx) => drawFieldLayout(ctx, 340, 435, false) },
+                { title: "U11 - Plongeon Ex.16 : Départ à genou", desc: "Départ un genou au sol (côté droit). Poussée explosive du genou gauche pour aller chercher le côté opposé.", draw: (ctx) => drawFieldLayout(ctx, 410, 440, false) },
+                { title: "U11 - Plongeon Ex.17 : Pression visuelle", desc: "Le gardien tourne le dos au coach, se retourne au signal sonore et plonge instantanément.", draw: (ctx) => drawFieldLayout(ctx, 400, 420, true) },
+                { title: "U11 - Plongeon Ex.18 : Corps en opposition", desc: "Plongeon avant bas sur un ballon relâché dans les pieds. Verrouillage des bras.", draw: (ctx) => drawFieldLayout(ctx, 400, 400, false) },
+                { title: "U11 - Plongeon Ex.19 : Vitesse de bras", desc: "Ballon tiré fort plein centre à mi-hauteur. Le gardien plonge on-place pour repousser des poings.", draw: (ctx) => drawFieldLayout(ctx, 400, 450, false) },
+                { title: "U11 - Plongeon Ex.20 : Examen final", desc: "Enchaînement libre : 1 déplacement gauche + 1 déplacement droit terminés par un plongeon spectaculaire.", draw: (ctx) => drawFieldLayout(ctx, 350, 430, true) }
+            ],
+            face: [
+                { title: "U11 - Face Ex.1 : Cadrage de base", desc: "L'attaquant avance lentement en ligne droite. Le gardien avance pas à pas pour boucher l'angle.", draw: (ctx) => drawFieldLayout(ctx, 400, 400, false) },
+                { title: "U11 - Face Ex.2 : Vitesse de fermeture", desc: "Au signal, sprint du gardien jusqu'aux 5.5m pour bloquer l'angle de tir de l'attaquant fixe.", draw: (ctx) => drawFieldLayout(ctx, 400, 370, false) },
+                { title: "U11 - Face Ex.3 : Décalage axe-droit", desc: "Ballon décalé sur le côté droit. Le gardien ajuste sa position sur la nouvelle bissectrice.", draw: (ctx) => drawFieldLayout(ctx, 430, 410, true) },
+                { title: "U11 - Face Ex.4 : Décalage axe-gauche", desc: "Ballon décalé à gauche. Course arquée du gardien pour fermer l'accès au premier poteau.", draw: (ctx) => drawFieldLayout(ctx, 370, 410, true) },
+                { title: "U11 - Face Ex.5 : Sortie dans les pieds", desc: "L'attaquant fait un grand contrôle long. Le gardien plonge en avant pour bloquer la balle de ses mains.", draw: (ctx) => drawFieldLayout(ctx, 400, 350, false) },
+                { title: "U11 - Face Ex.6 : Recul sur lob", desc: "L'attaquant tente un ballon piqué. Le gardien utilise des pas chassés arrière pour claquer.", draw: (ctx) => drawFieldLayout(ctx, 400, 440, false) },
+                { title: "U11 - Face Ex.7 : Appui bas", desc: "Le gardien reste très bas sur ses jambes pendant l'approche pour jaillir de manière explosive.", draw: (ctx) => drawFieldLayout(ctx, 400, 395, false) },
+                { title: "U11 - Face Ex.8 : Duel excentré", desc: "Attaque venant de l'aile. Le gardien colle son premier poteau pour interdire l'angle fermé.", draw: (ctx) => drawFieldLayout(ctx, 320, 430, true) },
+                { title: "U11 - Face Ex.9 : Feinte de frappe", desc: "L'attaquant simule un tir. Le gardien doit rester debout sur ses appuis sans tomber prématurément.", draw: (ctx) => drawFieldLayout(ctx, 400, 385, false) },
+                { title: "U11 - Face Ex.10 : Deuxième chance", desc: "Le gardien repousse un premier tir court et doit bondir face au deuxième attaquant aux aguets.", draw: (ctx) => drawFieldLayout(ctx, 420, 390, true) },
+                { title: "U11 - Face Ex.11 : Angle mort", desc: "Le tireur est masqué derrière un plot. Sortie rapide dès l'apparition visuelle de la balle.", draw: (ctx) => drawFieldLayout(ctx, 390, 380, false) },
+                { title: "U11 - Face Ex.12 : Réduction 9m", desc: "Sortie autoritaire jusqu'au point de penalty pour forcer l'attaquant à lober ou dribbler.", draw: (ctx) => drawFieldLayout(ctx, 400, 360, false) },
+                { title: "U11 - Face Ex.13 : Interception de passe", desc: "Passe latérale entre deux attaquants. Le gardien jaillit pour intercepter la trajectoire de passe.", draw: (ctx) => drawFieldLayout(ctx, 360, 375, true) },
+                { title: "U11 - Face Ex.14 : Barrage corporel", desc: "L'attaquant est à 3 mètres. Le gardien s'agrandit au maximum pour faire bouclier.", draw: (ctx) => drawFieldLayout(ctx, 400, 410, false) },
+                { title: "U11 - Face Ex.15 : Course rectiligne", desc: "Sprint pur vers l'avant, blocage net des appuis à l'instant précis où l'attaquant arme sa jambe.", draw: (ctx) => drawFieldLayout(ctx, 400, 365, false) },
+                { title: "U11 - Face Ex.16 : Duel rapproché", desc: "Ballon cafouillé dans la zone des 5.5m. Le gardien se jette au sol pour sécuriser le cuir.", draw: (ctx) => drawFieldLayout(ctx, 410, 430, false) },
+                { title: "U11 - Face Ex.17 : Changement d'avis", desc: "L'attaquant croise sa course. Le gardien change d'orientation d'appuis sans perdre l'équilibre.", draw: (ctx) => drawFieldLayout(ctx, 380, 400, true) },
+                { title: "U11 - Face Ex.18 : Bloc bas", desc: "Entraînement à la parade réflexe du pied sur un tir à bout portant en face-à-face.", draw: (ctx) => drawFieldLayout(ctx, 400, 425, false) },
+                { title: "U11 - Face Ex.19 : Duel psychologique", desc: "Le gardien avance en criant 'J'AI !' pour s'imposer visuellement et perturber le choix du tireur.", draw: (ctx) => drawFieldLayout(ctx, 400, 375, false) },
+                { title: "U11 - Face Ex.20 : Synthèse duel", desc: "Scénario complet : Sortie rapide, temporisation, et plongeon final dans les pieds de l'attaquant.", draw: (ctx) => drawFieldLayout(ctx, 400, 355, true) }
+            ],
+            appuis: [
+                { title: "U11 - Appuis Ex.1 : Pas chassés simples", desc: "Aller-retour entre deux coupelles distantes de 4 mètres, puis prise de balle au centre.", draw: (ctx) => drawFieldLayout(ctx, 380, 430, false) },
+                { title: "U11 - Appuis Ex.2 : Foulées croisées", desc: "Travail d'appuis croisés arrière pour se repositionner face à un ballon haut.", draw: (ctx) => drawFieldLayout(ctx, 410, 440, false) },
+                { title: "U11 - Appuis Ex.3 : Slalom avant-arrière", desc: "Slalom rapide autour des plots, puis jaillissement vertical pour capter une balle aérienne.", draw: (ctx) => drawFieldLayout(ctx, 390, 410, true) },
+                { title: "U11 - Appuis Ex.4 : Fréquence lattes", desc: "Passage rapide (un appui par intervalle) sur l'échelle de rythme puis blocage au sol.", draw: (ctx) => drawFieldLayout(ctx, 360, 420, false) },
+                { title: "U11 - Appuis Ex.5 : Sauts de haies", desc: "Franchissement de 3 mini-haies suivi d'un plongeon rasant immédiat sur la droite.", draw: (ctx) => drawFieldLayout(ctx, 420, 430, true) },
+                { title: "U11 - Appuis Ex.6 : Course en 8", desc: "Dessiner un 8 parfait autour de deux jalons avant de capter un tir tendu du coach.", draw: (ctx) => drawFieldLayout(ctx, 400, 415, false) },
+                { title: "U11 - Appuis Ex.7 : Départ couché", desc: "Le gardien est allongé. Au signal, il se lève le plus vite possible et ajuste ses appuis.", draw: (ctx) => drawFieldLayout(ctx, 400, 450, false) },
+                { title: "U11 - Appuis Ex.8 : Pivot 90°", desc: "Déplacement latéral, pivot instantané face au jeu pour intercepter une transversale.", draw: (ctx) => drawFieldLayout(ctx, 350, 400, true) },
+                { title: "U11 - Appuis Ex.9 : Demi-tour réflexe", desc: "Saut sur place, demi-tour en l'air et parade immédiate sur une balle frappée à mi-hauteur.", draw: (ctx) => drawFieldLayout(ctx, 400, 435, false) },
+                { title: "U11 - Appuis Ex.10 : Cloche-pied statique", desc: "Équilibre sur la jambe droite pendant 3s puis impulsion explosive vers la gauche.", draw: (ctx) => drawFieldLayout(ctx, 430, 430, true) },
+                { title: "U11 - Appuis Ex.11 : Appuis larges", desc: "Travail de garde très large au sol pour bloquer les tirs entre les jambes (petits ponts).", draw: (ctx) => drawFieldLayout(ctx, 400, 445, false) },
+                { title: "U11 - Appuis Ex.12 : Toucher de poteaux", desc: "Sprint pour toucher le poteau gauche, puis retour rapide pour fermer le côté droit.", draw: (ctx) => drawFieldLayout(ctx, 330, 435, true) },
+                { title: "U11 - Appuis Ex.13 : Pas brisés", desc: "Changement de direction brutal à 45° pour suivre un attaquant qui feinte le débordement.", draw: (ctx) => drawFieldLayout(ctx, 370, 410, false) },
+                { title: "U11 - Appuis Ex.14 : Cloche-pied dynamique", desc: "Sauts successifs sur une jambe par-dessus des lattes, puis relance précise de la main.", draw: (ctx) => drawFieldLayout(ctx, 410, 420, true) },
+                { title: "U11 - Appuis Ex.15 : Vitesse de recul", desc: "Course avant vers le coach, puis recul rapide sans croiser les jambes pour protéger le loch.", draw: (ctx) => drawFieldLayout(ctx, 400, 435, false) },
+                { title: "U11 - Appuis Ex.16 : Relance main haute", desc: "Prise de balle puis relance immédiate en cloche par-dessus un mannequin vers un mini-but.", draw: (ctx) => drawFieldLayout(ctx, 390, 400, true) },
+                { title: "U11 - Appuis Ex.17 : Coordination bras-jambes", desc: "Sauts écartés (jumping jacks) combinés à un déclenchement de tir imprévisible du coach.", draw: (ctx) => drawFieldLayout(ctx, 400, 425, false) },
+                { title: "U11 - Appuis Ex.18 : Vitesse de hanches", desc: "Rotation rapide des hanches pour s'orienter instantanément face à un second tireur excentré.", draw: (ctx) => drawFieldLayout(ctx, 440, 415, true) },
+                { title: "U11 - Appuis Ex.19 : Appuis dynamiques", desc: "Pas tapotés très rapides sur place en attendant la frappe (Dynamic Ready Stance).", draw: (ctx) => drawFieldLayout(ctx, 400, 430, false) },
+                { title: "U11 - Appuis Ex.20 : Le grand circuit", desc: "Combinaison de lattes, de cerceaux et d'un sprint arrière pour valider la motricité globale.", draw: (ctx) => drawFieldLayout(ctx, 360, 440, true) }
+            ]
         },
         u15: {
             plongeon: Array.from({length: 20}, (_, i) => ({
-                title: `U15 - Poussée Explosive & Double Parade [Fiche n°${i+1}]`,
-                desc: `Perfectionnement de la vitesse de redressement (Fiche n°${i+1}). Le gardien effectue un premier arrêt obligatoire sur un ballon envoyé à la main au premier poteau, se relève instantanément sans s'aider des bras, puis effectue un plongeon de grande envergure sur une frappe tendue aux 16 mètres.`,
-                draw: (ctx) => drawFieldLayout(ctx, 330 + (i*3)%50, 430, true)
+                title: `U15 - Plongeon Intensif Ex.${i+1}`,
+                desc: `Situation de niveau U15 n°${i+1}. Enchaînement dynamique comprenant un plongeon sur ballon au sol, un redressement explosif sans les mains et une seconde claquette aérienne.`,
+                draw: (ctx) => drawFieldLayout(ctx, 330 + (i*4)%60, 425, true)
             })),
             face: Array.from({length: 20}, (_, i) => ({
-                title: `U15 - Cadrage Dynamique & Sortie dans les Pieds [Fiche n°${i+1}]`,
-                desc: `Gestion de la profondeur et duel aérien/sol (Fiche n°${i+1}). Exercice axé sur la vitesse de décision. Sur une passe en profondeur appuyée, le gardien doit jaillir avec agressivité pour intercepter le cuir directement dans les pieds de l'attaquant lancé avant son contrôle.`,
+                title: `U15 - Face-à-face Progr. Ex.${i+1}`,
+                desc: `Situation de duel U15 n°${i+1}. Sortie rapide dans les pieds sur un contrôle trop long. Accent mis sur le timing du tacle glissé bras ouverts de sécurité.`,
                 draw: (ctx) => drawFieldLayout(ctx, 400, 360 - (i*3), false)
             })),
             appuis: Array.from({length: 20}, (_, i) => ({
-                title: `U15 - Dissociation & Rapidité de Placement [Fiche n°${i+1}]`,
-                desc: `Déplacements complexes et relances ciblées (Fiche n°${i+1}). Course croisée autour de deux piquets verticaux en maintenant le regard fixé sur le porteur de balle. Dès la récupération du ballon, transition immédiate vers une relance précise au pied à mi-distance.`,
-                draw: (ctx) => drawFieldLayout(ctx, 370, 400, false)
+                title: `U15 - Vitesse Appuis Ex.${i+1}`,
+                desc: `Travail de vélocité U15 n°${i+1}. Exercice en huit autour des coupelles à haute intensité physique, suivi d'une relance tendue à la main vers l'aile opposée.`,
+                draw: (ctx) => drawFieldLayout(ctx, 370, 405, false)
             }))
         },
         senior: {
             plongeon: Array.from({length: 20}, (_, i) => ({
-                title: `Séniors - Performance Élite Impact Plongeon [Fiche n°${i+1}]`,
-                desc: `Situation de niveau professionnel (Fiche n°${i+1}). Intégration de mannequins de masquage devant la surface de but pour réduire le temps de réaction visuel. Frappe tendue à trajectoire flottante déclenchée depuis l'extérieur de la surface, exigeant une extension maximale et une déviation ferme.`,
-                draw: (ctx) => drawFieldLayout(ctx, 310 + (i*5)%60, 440, true)
+                title: `Séniors - Plongeon Élite Ex.${i+1}`,
+                desc: `Situation pro de plongeon n°${i+1}. Utilisation de mannequins écrans. Prise d'information tardive sur frappe enveloppée en lucarne. Exige une poussée maximale.`,
+                draw: (ctx) => drawFieldLayout(ctx, 310 + (i*5)%70, 435, true)
             })),
             face: Array.from({length: 20}, (_, i) => ({
-                title: `Séniors - Duel Fermé & Posture K/Croix Élite [Fiche n°${i+1}]`,
-                desc: `Gestion des situations de crise à bout portant (Fiche n°${i+1}). Centre en retrait fuyant de l'ailier vers l'attaquant axial aux 6 mètres. Sortie explosive en fermeture d'angle avec déploiement du corps en barrage total ("Position en K" ou "Croix" synchronisée).`,
-                draw: (ctx) => drawFieldLayout(ctx, 415, 350, false)
+                title: `Séniors - Face-à-face Élite Ex.${i+1}`,
+                desc: `Duel de niveau Pro n°${i+1}. Gestion d'une transition rapide axiale. Sortie agressive et blocage instantané de l'espace en position de la croix ou du K européen.`,
+                draw: (ctx) => drawFieldLayout(ctx, 405, 345, false)
             })),
             appuis: Array.from({length: 20}, (_, i) => ({
-                title: `Séniors - Jeu au Pied Libéro & Course de Recul [Fiche n°${i+1}]`,
-                desc: `Tactique moderne du gardien de but connecté au bloc équipe (Fiche n°${i+1}). Position de départ haute en libéro. Sur une transition adverse, course de recul croisée rapide pour gérer un lob lointain, suivie d'une relance instantanée en rupture à une touche de balle.`,
-                draw: (ctx) => drawFieldLayout(ctx, 395, 395, false)
+                title: `Séniors - Appuis & Tactique Ex.${i+1}`,
+                desc: `Situation tactique moderne n°${i+1}. Course de recul suite à un ballon profond en cloche, prise de balle haute et relance directe au pied sous pressing intense.`,
+                draw: (ctx) => drawFieldLayout(ctx, 390, 395, false)
             }))
         }
     };
@@ -522,7 +538,9 @@
         for(let i = 0; i < 20; i++) {
             let opt = document.createElement('option');
             opt.value = i;
-            opt.text = `Situation Tactique ${i+1} : Fiche Spécifique`;
+            // Utilise le titre spécifique s'il existe (U11), sinon un titre formaté standard
+            const currentExo = exerciseDatabase[age][theme][i];
+            opt.text = currentExo ? currentExo.title : `Situation Tactique ${i+1}`;
             selector.appendChild(opt);
         }
         generateExercise();
@@ -534,10 +552,11 @@
         const index = document.getElementById('exoSelector').value || 0;
         
         const exo = exerciseDatabase[age][theme][index];
-        const canvasExo = document.getElementById('exoCanvas');
-        exo.draw(canvasExo.getContext('2d'));
-        
-        document.getElementById('exoDescription').innerHTML = `<h4>📋 ${exo.title}</h4><p>${exo.desc}</p>`;
+        if (exo) {
+            const canvasExo = document.getElementById('exoCanvas');
+            exo.draw(canvasExo.getContext('2d'));
+            document.getElementById('exoDescription').innerHTML = `<h4>📋 ${exo.title}</h4><p>${exo.desc}</p>`;
+        }
     }
 
     // --- CONSTRUCTEUR DE TERRAINS GRAPHIQUES ---
@@ -560,80 +579,4 @@
         ctx.fillStyle = "#000"; ctx.font = "bold 11px Arial"; ctx.textAlign = "center"; ctx.fillText("GB", gx, gy + 4);
 
         // Éducateur / Coach (Cercle Rouge)
-        ctx.fillStyle = "#e53e3e"; ctx.beginPath(); ctx.arc(400, 230, 15, 0, Math.PI*2); ctx.fill();
-        ctx.strokeStyle = "#fff"; ctx.stroke();
-        ctx.fillStyle = "#fff"; ctx.fillText("CH", 400, 234);
-
-        // Plots de Balisage Tactique
-        ctx.fillStyle = "#dd6b20"; ctx.beginPath(); ctx.moveTo(340, 390); ctx.lineTo(332, 408); ctx.lineTo(348, 408); ctx.closePath(); ctx.fill();
-        ctx.fillStyle = "#3182ce"; ctx.beginPath(); ctx.moveTo(460, 390); ctx.lineTo(452, 408); ctx.lineTo(468, 408); ctx.closePath(); ctx.fill();
-
-        // Ballon Blanc Principal
-        ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.arc(400, 260, 7, 0, Math.PI*2); ctx.fill(); 
-        ctx.strokeStyle = "#000"; ctx.lineWidth = 1.5; ctx.stroke();
-
-        // Flèche Bleue de Trajectoire Ballon
-        ctx.strokeStyle = "#31e0ff"; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(400, 268); ctx.lineTo(gx, gy - 15); ctx.stroke();
-
-        if(showSecondBall) {
-            ctx.fillStyle = "#ecc94b"; ctx.beginPath(); ctx.arc(440, 280, 7, 0, Math.PI*2); ctx.fill(); ctx.stroke();
-        }
-    }
-
-    // --- MODULES PHYSIQUES : REACTION & CHRONO IA ---
-    function startReactionTest() {
-        testState = "waiting_bip";
-        const feedback = document.getElementById('feedback');
-        feedback.innerText = "🛑 RESTEZ EN POSITION BIEN DROIT... ATTENDEZ LE SIGNAL SONORE !";
-        feedback.style.color = "#dd6b20";
-        
-        const randomDelay = Math.random() * 3500 + 2000;
-        setTimeout(() => {
-            if(testState === "waiting_bip") {
-                testState = "bip_emitted";
-                bipTime = Date.now();
-                feedback.innerText = "🔥 BIP ! GO ! BAISSEZ-VOUS EN POSITION DE GARDE !";
-                feedback.style.color = "#00ff66";
-                
-                // Déclenchement Audio Bip Synchrone
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                const osc = audioCtx.createOscillator();
-                osc.type = "sine"; osc.frequency.setValueAtTime(950, audioCtx.currentTime);
-                osc.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.18);
-            }
-        }, randomDelay);
-    }
-
-    function startChallenge30s() {
-        testState = "challenge_active";
-        challengeScore = 0;
-        challengeEnd = Date.now() + 30000;
-        const feedback = document.getElementById('feedback');
-        
-        if(challengeTimer) clearInterval(challengeTimer);
-        challengeTimer = setInterval(() => {
-            const timeLeft = Math.round((challengeEnd - Date.now()) / 1000);
-            if(timeLeft <= 0) {
-                clearInterval(challengeTimer);
-                testState = "idle";
-                feedback.innerText = `🏆 FIN DU DEFI ! SCORE FINAL ENREGISTRÉ : ${challengeScore} POINTS !`;
-                feedback.style.color = "#ecc94b";
-                document.getElementById('statScore').innerText = challengeScore;
-            } else {
-                feedback.innerText = `⏳ DEFI EN COURS : RESSERREZ LA GARDE ! TEMPS RESTANT : ${timeLeft}s | SCORE : ${challengeScore}`;
-                feedback.style.color = "#00ff66";
-            }
-        }, 200);
-    }
-
-    function updateDifficulty() { 
-        targetAngle = parseInt(document.getElementById('levelSelect').value); 
-    }
-    function exportExoToPDF() { window.print(); }
-    
-    window.onload = function() {
-        updateExerciseList();
-    };
-  </script>
-</body>
-</html>
+        ctx.fillStyle = "#e53e3
