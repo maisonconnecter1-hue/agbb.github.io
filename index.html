@@ -11,7 +11,7 @@
     body { font-family: 'Segoe UI', sans-serif; background: #0a0a0a; color: white; margin: 0; text-align: center; }
     .header { background: #00ff00; color: black; padding: 15px; font-weight: bold; display: flex; justify-content: space-around; align-items: center; }
     .main-grid { display: grid; grid-template-columns: 3fr 1fr; gap: 15px; padding: 15px; }
-    .video-section { position: relative; background: #000; border-radius: 20px; border: 2px solid #333; overflow: hidden; }
+    .video-container { position: relative; background: #000; border-radius: 20px; border: 2px solid #333; overflow: hidden; }
     canvas, #replay { width: 100%; height: auto; border-radius: 15px; }
     .sidebar { background: #151515; padding: 15px; border-radius: 20px; border: 1px solid #333; max-height: 85vh; overflow-y: auto; }
     .control-panel { background: #111; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; }
@@ -29,7 +29,7 @@
 <body>
 
   <div class="header">
-    <span>AGBB AI - PERFORMANCE v6.0</span>
+    <span>AGBB AI - PERFORMANCE v6.1</span>
     <div>Gardien : <input type="text" id="gkName" value="Gardien_1" style="width:100px;"></div>
     <div style="display:flex; align-items:center; gap:10px;">
         <span>🔊</span>
@@ -56,14 +56,14 @@
 
       <div id="feedback" class="status-bar">EN ATTENTE...</div>
       <canvas id="out_canvas" width="1280" height="720"></canvas>
-      <video id="in_video" style="display:none;"></video>
+      <video id="in_video" style="display:none;" playsinline muted></video>
       <video id="replay" style="display:none;" controls></video>
     </div>
 
     <div class="sidebar">
       <h3>LOG SESSION</h3>
       <table id="logTable">
-        <thead><tr><th>Heure</th><th>Genou</th><th>Mains</th></tr></thead>
+        <thead><tr><th>Heure</th><th>Genou D/G</th><th>Mains</th></tr></thead>
         <tbody></tbody>
       </table>
       <button style="margin-top:20px; width:100%;" onclick="exportCSV()">💾 EXPORT DATA</button>
@@ -83,7 +83,8 @@
     function toggleMute() {
         isMuted = !isMuted;
         document.getElementById('muteBtn').innerText = isMuted ? "ACTIVER SON" : "COUPE SON";
-        document.getElementById('muteBtn').style.background = isMuted ? "#ff4444" : "#00aaff";
+        document.getElementById('muteBtn').style.background = isMuted ? "#00ff00" : "#ff4444";
+        document.getElementById('muteBtn').style.color = isMuted ? "black" : "white";
     }
 
     function talk(text) {
@@ -92,31 +93,46 @@
         if (now - lastSpeak > 3500) {
             const msg = new SpeechSynthesisUtterance(text);
             msg.lang = 'fr-FR';
-            msg.volume = volRange.value;
+            msg.volume = parseFloat(volRange.value);
             window.speechSynthesis.speak(msg);
             lastSpeak = now;
         }
     }
 
     function calculateAngle(A, B, C) {
+        if (!A || !B || !C) return 180;
         let a = Math.sqrt(Math.pow(C.x-B.x, 2) + Math.pow(C.y-B.y, 2));
         let b = Math.sqrt(Math.pow(C.x-A.x, 2) + Math.pow(C.y-A.y, 2));
         let c = Math.sqrt(Math.pow(B.x-A.x, 2) + Math.pow(B.y-A.y, 2));
-        return Math.round(Math.acos((a*a+c*c-b*b)/(2*a*c)) * (180/Math.PI));
+        if (2 * a * c === 0) return 180;
+        let angle = Math.acos((a*a+c*c-b*b)/(2*a*c)) * (180/Math.PI);
+        return Math.round(angle);
     }
 
     function onResults(res) {
         ctx.save();
-        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(res.image, 0, 0, canvas.width, canvas.height);
 
         if (res.poseLandmarks) {
             const p = res.poseLandmarks;
-            const ang = calculateAngle(p[24], p[26], p[28]);
-            const dist = Math.sqrt(Math.pow(p[15].x-p[16].x,2) + Math.pow(p[15].y-p[16].y,2));
+            
+            // Calcul des angles pour les deux genoux (Droit: 24-26-28, Gauche: 23-25-27)
+            const angDroit = calculateAngle(p[24], p[26], p[28]);
+            const angGauche = calculateAngle(p[23], p[25], p[27]);
+            
+            // On prend le genou le plus bas/fléchi visible ou une moyenne si de face
+            // Pour être considéré comme "Prêt", au moins un des deux genoux actifs doit être fléchi
+            const isLow = angDroit < 155 || angGauche < 155;
 
-            const isLow = ang < 155;
-            const handsOk = dist < 0.14;
+            // Normalisation de la distance des mains par rapport à la largeur des épaules (points 11 et 12)
+            const distEpaules = Math.sqrt(Math.pow(p[11].x - p[12].x, 2) + Math.pow(p[11].y - p[12].y, 2));
+            const distMainsAbsolue = Math.sqrt(Math.pow(p[15].x - p[16].x, 2) + Math.pow(p[15].y - p[16].y, 2));
+            
+            // Ratio basé sur la morphologie à l'écran (0.5 signifie que l'écart des mains fait la moitié de la largeur des épaules)
+            const ratioMains = distEpaules > 0 ? (distMainsAbsolue / distEpaules) : 0.5;
+            const handsOk = ratioMains < 0.65; 
+
             const color = isLow ? "#00FF00" : "#FF0000";
 
             drawConnectors(ctx, p, POSE_CONNECTIONS, {color: color, lineWidth: 4});
@@ -124,13 +140,16 @@
             feedback.innerText = isLow ? "POSITION : PRÊT ✅" : "POSITION : TROP HAUT ! ❌";
             feedback.style.color = color;
 
-            if (!isLow) talk("Baisse-toi");
-            else if (!handsOk) talk("Ferme les mains");
+            if (!isLow) {
+                talk("Baisse-toi");
+            } else if (!handsOk) {
+                talk("Ferme les mains");
+            }
 
             if (Math.random() > 0.98) {
                 const time = new Date().toLocaleTimeString().split(' ')[0];
                 const row = document.getElementById('logTable').tBodies[0].insertRow(0);
-                row.innerHTML = `<td>${time}</td><td>${ang}°</td><td>${handsOk?'OK':'KO'}</td>`;
+                row.innerHTML = `<td>${time}</td><td>D:${angDroit}° / G:${angGauche}°</td><td>${handsOk?'OK':'KO'}</td>`;
             }
         }
         ctx.restore();
@@ -174,15 +193,15 @@
     }
 
     function updateReplaySpeed() { replay.playbackRate = document.getElementById('slowMo').value; }
+    
     function exportCSV() {
-        let csv = "Heure;Angle;Mains\n";
+        let csv = "Heure;Angle Genoux;Mains\n";
         document.querySelectorAll("#logTable tbody tr").forEach(tr => {
             csv += `${tr.cells[0].innerText};${tr.cells[1].innerText};${tr.cells[2].innerText}\n`;
         });
-        const b = new Blob([csv], {type:'text/csv'});
+        const b = new Blob([csv], {type:'text/csv;charset=utf-8;'});
         const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download="AGBB_Export.csv"; a.click();
     }
   </script>
 </body>
-</html>
 </html>
