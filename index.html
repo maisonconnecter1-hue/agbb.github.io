@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGBB PRO AI - Elite Performance v9.6</title>
+  <title>AGBB PRO AI - Elite Performance v9.7</title>
   
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
@@ -143,7 +143,6 @@
     button:active { transform: translateY(0); }
     
     .btn-start { background: var(--agbb-red); color: #fff; box-shadow: 0 4px 15px rgba(178,34,52,0.4); }
-    .btn-rec { background: #e53e3e; color: #fff; }
     .btn-action { background: #3182ce; color: #fff; }
     .btn-orange { background: #dd6b20; color: #fff; }
 
@@ -235,7 +234,7 @@
   <div class="header">
     <div class="header-logo-area">
       <div style="font-size: 1.5rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));">🛡️</div>
-      <div>AGBB AI - BEUVRY ACADÉMIE v9.6</div>
+      <div>AGBB PRO AI - BEUVRY ACADÉMIE v9.7</div>
     </div>
     <div>
       <span style="font-size:0.9rem; text-transform:uppercase; margin-right:5px; opacity:0.9;">Gardien ciblé :</span>
@@ -264,12 +263,12 @@
               <option value="environment" selected>🏟️ Caméra Arrière (Terrain)</option>
               <option value="user">📷 Caméra Avant (Selfie)</option>
           </select>
-          <button class="btn-start" onclick="initCamera()">▶️ LANCER LA CAMERA IA</button>
-          <button class="btn-action" onclick="startReactionTest()">⏱️ TEST DE REACTION</button>
-          <button class="btn-orange" onclick="startChallenge30s()">🏆 DEFI DES 30 SECONDES</button>
+          <button class="btn-start" onclick="initCamera()">▶️ LANCER LA CAMÉRA IA</button>
+          <button class="btn-action" onclick="startReactionTest()">⏱️ TEST DE RÉACTION</button>
+          <button class="btn-orange" onclick="startChallenge30s()">🏆 DÉFI DES 30 SECONDES</button>
         </div>
 
-        <div id="feedback" class="status-bar" style="color: #cbd5e0;">SYSTÈME PRÊT. EN ATTENTE DU FLUX VIDÉO...</div>
+        <div id="feedback" class="status-bar" style="color: #cbd5e0;">SYSTEME PRÊT. EN ATTENTE DU FLUX VIDÉO...</div>
         <canvas id="out_canvas" width="1280" height="720"></canvas>
         <video id="in_video" style="display:none;" playsinline muted></video>
       </div>
@@ -295,7 +294,7 @@
               <thead>
                 <tr>
                   <th>Date / Heure</th>
-                  <th>Flexion Moy.</th>
+                  <th>Angle Moyen</th>
                   <th>Réaction</th>
                 </tr>
               </thead>
@@ -350,24 +349,24 @@
         <div class="help-step">
           <div class="help-num">1</div>
           <div class="help-text">
-            <p>Positionnez le smartphone ou la tablette sur un trépied à hauteur de bassin, à environ 4-5 mètres du gardien.</p>
-            <span>L'intelligence artificielle doit être capable de voir l'intégralité du corps (de la tête aux pieds).</span>
+            <p>Positionnez l'appareil sur un trépied stable à hauteur de hanches, à environ 4-5 mètres du gardien.</p>
+            <span>Le capteur optique doit pouvoir filmer le gardien de la tête aux pieds pour tracer correctement les articulations.</span>
           </div>
         </div>
         <div class="help-step">
           <div class="help-num">2</div>
           <div class="help-text">
-            <p>Appuyez sur le bouton vert <strong>"LANCER LA CAMERA IA"</strong>.</p>
-            <span>Le squelette biomécanique se superpose instantanément sur les jambes et le tronc du gardien.</span>
+            <p>Cliquez sur <strong>"LANCER LA CAMÉRA IA"</strong>.</p>
+            <span>Le système superpose les lignes de repère biomécaniques sur les genoux, les hanches et les épaules.</span>
           </div>
         </div>
         <div class="help-step">
           <div class="help-num">3</div>
           <div class="help-text">
-            <p>Observez le code couleur en temps réel :</p>
+            <p>Suivez les indicateurs colorés dynamiques :</p>
             <span>
-              <span class="color-box" style="background:#e53e3e; color:#fff;">ROUGE</span> : Jambes trop tendues. Le gardien est trop haut sur ses appuis.<br>
-              <span class="color-box" style="background:#00ff66; color:#000;">VERT</span> : Position de garde parfaite. Flexion idéale validée selon le niveau choisi !
+              <span class="color-box" style="background:#e53e3e; color:#fff;">ROUGE</span> : Posture trop haute, jambes trop tendues. Perte d'explosivité.<br>
+              <span class="color-box" style="background:#00ff66; color:#000;">VERT</span> : Garde parfaite. Flexion idéale validée pour le niveau sélectionné !
             </span>
           </div>
         </div>
@@ -378,21 +377,21 @@
         <div class="help-step">
           <div class="help-num">1</div>
           <div class="help-text">
-            <p>Le gardien se tient initialement bien droit, au centre du champ de vision de la caméra.</p>
+            <p>Le gardien se place en position d'attente bien droite face à l'objectif au centre du cadre.</p>
           </div>
         </div>
         <div class="help-step">
           <div class="help-num">2</div>
           <div class="help-text">
-            <p>Le coach clique sur le bouton bleu <strong>"TEST DE REACTION"</strong>.</p>
-            <span>L'application affiche une alerte d'attente, puis déclenche un <strong>BIP sonore aigu</strong> de manière aléatoire.</span>
+            <p>L'éducateur active le module en appuyant sur <strong>"TEST DE RÉACTION"</strong>.</p>
+            <span>Un compte à rebours masqué attend une durée aléatoire puis émet un flash et un <strong>BIP sonore aigu</strong>.</span>
           </div>
         </div>
         <div class="help-step">
           <div class="help-num">3</div>
           <div class="help-text">
-            <p>Dès le signal sonore, le gardien doit descendre le plus rapidement possible en position de garde basse.</p>
-            <span>L'IA détecte l'instant exact du début de la descente et affiche le score en millisecondes (ms).</span>
+            <p>Au signal, le gardien doit descendre le plus rapidement possible sous l'angle de garde cible.</p>
+            <span>L'algorithme calcule l'intervalle exact en millisecondes (ms) entre le bip et la flexion physique validée.</span>
           </div>
         </div>
       </div>
@@ -401,11 +400,54 @@
   </div>
 
   <script>
-    let targetAngle = 150, cameraActive = null;
-    let testState = "idle";
+    let targetAngle = 150;
+    let cameraActive = null;
+    let testState = "idle"; // idle, waiting_bip, bip_emitted, challenge_active
     let bipTime = 0, challengeTimer = null, challengeScore = 0, challengeEnd = 0;
+    
+    // Éléments DOM & Graphique de monitoring
+    let currentAngleGlobal = 180;
+    let historyData = [];
+    let liveChartInstance = null;
 
-    // --- NAVIGATION DES ONGLETS ---
+    // Initialisation du graphique de suivi d'angle en direct
+    function initChart() {
+        const ctxChart = document.getElementById('liveChart').getContext('2d');
+        liveChartInstance = new Chart(ctxChart, {
+            type: 'line',
+            data: {
+                labels: Array(20).fill(''),
+                datasets: [{
+                    label: 'Angle de Garde (°)',
+                    data: Array(20).fill(180),
+                    borderColor: '#00ff66',
+                    borderWidth: 2,
+                    fill: false,
+                    tension: 0.3,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: 90, max: 180, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#a0a8b8' } },
+                    x: { display: false }
+                }
+            }
+        });
+    }
+
+    function updateChart(newAngle) {
+        if (!liveChartInstance) return;
+        liveChartInstance.data.datasets[0].data.shift();
+        liveChartInstance.data.datasets[0].data.push(newAngle);
+        liveChartInstance.data.datasets[0].borderColor = newAngle <= targetAngle ? '#00ff66' : '#e53e3e';
+        liveChartInstance.update('none');
+    }
+
+    // --- SYSTEME DE NAVIGATION D'ONGLETS ---
     function switchTab(id) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -422,7 +464,7 @@
         }
     }
 
-    // --- BASE DE DONNÉES ACADÉMIQUE AVEC VARIATION DE DESSINS POUR CHACUN DES 60 EXERCICES ---
+    // --- BASE DE DONNÉES ACCADÉMIQUE AVEC VARIATION DE DESSINS POUR LES 60 EXERCICES ---
     const exerciseDatabase = {
         u11: {
             plongeon: [
@@ -444,7 +486,7 @@
                 { title: "U11 - Plongeon Ex.16 : Départ à genou", desc: "Départ un genou au sol (côté droit). Poussée explosive du genou gauche pour aller chercher le côté opposé.", draw: (ctx) => drawFieldLayout(ctx, 410, 440, false) },
                 { title: "U11 - Plongeon Ex.17 : Pression visuelle", desc: "Le gardien tourne le dos au coach, se retourne au signal sonore et plonge instantanément.", draw: (ctx) => drawFieldLayout(ctx, 400, 420, true) },
                 { title: "U11 - Plongeon Ex.18 : Corps en opposition", desc: "Plongeon avant bas sur un ballon relâché dans les pieds. Verrouillage des bras.", draw: (ctx) => drawFieldLayout(ctx, 400, 400, false) },
-                { title: "U11 - Plongeon Ex.19 : Vitesse de bras", desc: "Ballon tiré fort plein centre à mi-hauteur. Le gardien plonge on-place pour repousser des poings.", draw: (ctx) => drawFieldLayout(ctx, 400, 450, false) },
+                { title: "U11 - Plongeon Ex.19 : Vitesse de bras", desc: "Ballon tiré fort plein centre à mi-hauteur. Le gardien plonge sur place pour repousser des poings.", draw: (ctx) => drawFieldLayout(ctx, 400, 450, false) },
                 { title: "U11 - Plongeon Ex.20 : Examen final", desc: "Enchaînement libre : 1 déplacement gauche + 1 déplacement droit terminés par un plongeon spectaculaire.", draw: (ctx) => drawFieldLayout(ctx, 350, 430, true) }
             ],
             face: [
@@ -538,7 +580,6 @@
         for(let i = 0; i < 20; i++) {
             let opt = document.createElement('option');
             opt.value = i;
-            // Utilise le titre spécifique s'il existe (U11), sinon un titre formaté standard
             const currentExo = exerciseDatabase[age][theme][i];
             opt.text = currentExo ? currentExo.title : `Situation Tactique ${i+1}`;
             selector.appendChild(opt);
@@ -579,4 +620,210 @@
         ctx.fillStyle = "#000"; ctx.font = "bold 11px Arial"; ctx.textAlign = "center"; ctx.fillText("GB", gx, gy + 4);
 
         // Éducateur / Coach (Cercle Rouge)
-        ctx.fillStyle = "#e53e3
+        ctx.fillStyle = "#e53e3e"; ctx.beginPath(); ctx.arc(400, 230, 15, 0, Math.PI*2); ctx.fill();
+        ctx.strokeStyle = "#fff"; ctx.stroke();
+        ctx.fillStyle = "#fff"; ctx.fillText("CH", 400, 234);
+
+        // Plots de Balisage Tactique
+        ctx.fillStyle = "#dd6b20"; ctx.beginPath(); ctx.moveTo(340, 390); ctx.lineTo(332, 408); ctx.lineTo(348, 408); ctx.closePath(); ctx.fill();
+        ctx.fillStyle = "#3182ce"; ctx.beginPath(); ctx.moveTo(460, 390); ctx.lineTo(452, 408); ctx.lineTo(468, 408); ctx.closePath(); ctx.fill();
+
+        // Ballon Blanc Principal
+        ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.arc(400, 260, 7, 0, Math.PI*2); ctx.fill(); 
+        ctx.strokeStyle = "#000"; ctx.lineWidth = 1.5; ctx.stroke();
+
+        // Flèche Bleue de Trajectoire Ballon
+        ctx.strokeStyle = "#31e0ff"; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(400, 268); ctx.lineTo(gx, gy - 15); ctx.stroke();
+
+        if(showSecondBall) {
+            ctx.fillStyle = "#ecc94b"; ctx.beginPath(); ctx.arc(440, 280, 7, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+        }
+    }
+
+    // --- MODULES PHYSIQUES : REACTION & CHRONO IA ---
+    function startReactionTest() {
+        testState = "waiting_bip";
+        const feedback = document.getElementById('feedback');
+        feedback.innerText = "🛑 RESTEZ EN POSITION BIEN DROIT... ATTENDEZ LE SIGNAL SONORE !";
+        feedback.style.color = "#dd6b20";
+        
+        const randomDelay = Math.random() * 3500 + 2000;
+        setTimeout(() => {
+            if(testState === "waiting_bip") {
+                testState = "bip_emitted";
+                bipTime = Date.now();
+                feedback.innerText = "🔥 BIP ! GO ! BAISSEZ-VOUS EN POSITION DE GARDE !";
+                feedback.style.color = "#00ff66";
+                
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                osc.type = "sine"; osc.frequency.setValueAtTime(950, audioCtx.currentTime);
+                osc.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.18);
+            }
+        }, randomDelay);
+    }
+
+    function startChallenge30s() {
+        testState = "challenge_active";
+        challengeScore = 0;
+        challengeEnd = Date.now() + 30000;
+        const feedback = document.getElementById('feedback');
+        
+        if(challengeTimer) clearInterval(challengeTimer);
+        challengeTimer = setInterval(() => {
+            const timeLeft = Math.round((challengeEnd - Date.now()) / 1000);
+            if(timeLeft <= 0) {
+                clearInterval(challengeTimer);
+                testState = "idle";
+                feedback.innerText = `🏆 FIN DU DÉFI ! SCORE FINAL ENREGISTRÉ : ${challengeScore} POINTS !`;
+                feedback.style.color = "#ecc94b";
+                document.getElementById('statScore').innerText = challengeScore;
+            } else {
+                feedback.innerText = `⏳ DÉFI EN COURS : RESSERREZ LA GARDE ! TEMPS RESTANT : ${timeLeft}s | SCORE : ${challengeScore}`;
+                feedback.style.color = "#00ff66";
+            }
+        }, 200);
+    }
+
+    function updateDifficulty() { 
+        targetAngle = parseInt(document.getElementById('levelSelect').value); 
+    }
+    
+    function exportExoToPDF() { window.print(); }
+
+    // --- INTEGRATION DU MOTEUR BIOMÉCANIQUE MEDIAPIPE POSE ---
+    const videoElement = document.getElementById('in_video');
+    const canvasElement = document.getElementById('out_canvas');
+    const canvasCtx = canvasElement.getContext('2d');
+
+    function calculateAngle(p1, p2, p3) {
+        let radians = Math.atan2(p3.y - p2.y, p3.x - p2.x) - Math.atan2(p1.y - p2.y, p1.x - p2.x);
+        let angle = Math.abs((radians * 180.0) / Math.PI);
+        if (angle > 180.0) angle = 360.0 - angle;
+        return angle;
+    }
+
+    function onPoseResults(results) {
+        canvasCtx.save();
+        canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+        
+        // Affichage du flux miroir
+        canvasCtx.translate(canvasElement.width, 0);
+        canvasCtx.scale(-1, 1);
+        canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+        canvasCtx.restore();
+
+        if (results.poseLandmarks) {
+            // Extraction des repères clés pour les deux jambes
+            const hipL = results.poseLandmarks[23];
+            const kneeL = results.poseLandmarks[25];
+            const ankleL = results.poseLandmarks[27];
+            const hipR = results.poseLandmarks[24];
+            const kneeR = results.poseLandmarks[26];
+            const ankleR = results.poseLandmarks[28];
+
+            const angleL = calculateAngle(hipL, kneeL, ankleL);
+            const angleR = calculateAngle(hipR, kneeR, ankleR);
+            const currentAngle = Math.round((angleL + angleR) / 2);
+            currentAngleGlobal = currentAngle;
+
+            // Calcul de la flexion et de l'axe de centrage
+            const indexFlexion = Math.max(0, Math.min(100, Math.round(((180 - currentAngle) / (180 - targetAngle)) * 100)));
+            document.getElementById('statRatio').innerText = indexFlexion + "%";
+            
+            const alignment = Math.round((kneeL.x + kneeR.x) / 2 * 100);
+            document.getElementById('statBalance').innerText = (alignment > 46 && alignment < 54) ? "AXÉ" : "DÉCENTRÉ";
+
+            updateChart(currentAngle);
+
+            // Évaluation de la couleur de garde en temps réel
+            let isGardeCorrecte = currentAngle <= targetAngle;
+            let drawColor = isGardeCorrecte ? '#00ff66' : '#e53e3e';
+
+            if (testState === "challenge_active" && isGardeCorrecte) {
+                challengeScore += 2;
+                document.getElementById('statScore').innerText = challengeScore;
+            }
+
+            if (testState === "bip_emitted" && isGardeCorrecte) {
+                const reactionTime = Date.now() - bipTime;
+                testState = "idle";
+                document.getElementById('statReaction').innerText = reactionTime + " ms";
+                document.getElementById('feedback').innerText = `⚡ TEMPS DE RÉACTION ENREGISTRÉ : ${reactionTime} ms !`;
+                document.getElementById('feedback').style.color = "#00ff66";
+                
+                // Ajouter à l'historique de session
+                const table = document.getElementById('historyTable').getElementsByTagName('tbody')[0];
+                const row = table.insertRow(0);
+                row.insertCell(0).innerText = new Date().toLocaleTimeString();
+                row.insertCell(1).innerText = currentAngle + "°";
+                row.insertCell(2).innerText = reactionTime + " ms";
+            }
+
+            // Dessin personnalisé du squelette analytique sur le canvas
+            canvasCtx.save();
+            if(isGardeCorrecte) {
+                document.getElementById('feedback').innerText = `✅ EXCELLENT ! POSTURE VALIDÉE (${currentAngle}°)`;
+                document.getElementById('feedback').style.color = "#00ff66";
+            } else {
+                if (testState === "idle") {
+                    document.getElementById('feedback').innerText = `⚠️ S'ABAISSER ENCORE (ACTUEL : ${currentAngle}° / CIBLE : ${targetAngle}°)`;
+                    document.getElementById('feedback').style.color = "#e53e3e";
+                }
+            }
+
+            // Superposer les segments articulaires clés
+            drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, { color: drawColor, lineWidth: 5 });
+            drawLandmarks(canvasCtx, [hipL, kneeL, ankleL, hipR, kneeR, ankleR], { color: '#ffffff', fillColor: drawColor, lineWidth: 2, radius: 8 });
+            canvasCtx.restore();
+        }
+    }
+
+    // --- INITIALISATION DU CAPTEUR VIDEO ---
+    function initCamera() {
+        const selectedCam = document.getElementById('camSelect').value;
+        document.getElementById('feedback').innerText = "🔄 INITIALISATION DE L'INTELLIGENCE ARTIFICIELLE...";
+        
+        const pose = new Pose({
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`
+        });
+
+        pose.setOptions({
+            modelComplexity: 1,
+            smoothLandmarks: true,
+            enableSegmentation: false,
+            minDetectionConfidence: 0.6,
+            minTrackingConfidence: 0.6
+        });
+
+        pose.onResults(onPoseResults);
+
+        if(cameraActive) {
+            cameraActive.stop();
+        }
+
+        cameraActive = new Camera(videoElement, {
+            onFrame: async () => {
+                await pose.send({ image: videoElement });
+            },
+            width: 1280,
+            height: 720,
+            facingMode: selectedCam
+        });
+        
+        cameraActive.start().then(() => {
+            document.getElementById('feedback').innerText = "🎥 CAPTEUR IA DÉPLOYÉ AVEC SUCCÈS.";
+            document.getElementById('feedback').style.color = "#00ff66";
+        }).catch(err => {
+            document.getElementById('feedback').innerText = "❌ ERREUR : ACCÈS CAMÉRA REFUSÉ.";
+            document.getElementById('feedback').style.color = "#e53e3e";
+        });
+    }
+
+    window.onload = function() {
+        initChart();
+        updateExerciseList();
+    };
+  </script>
+</body>
+</html>
