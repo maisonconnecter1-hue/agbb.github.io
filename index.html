@@ -3,38 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGBB PRO AI - Coach Vocal & Caméra</title>
+  <title>AGBB PRO AI - Performance Coach v7.0</title>
+  <!-- MediaPipe & Chart.js Dependencies -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
   <style>
-    body { font-family: 'Segoe UI', sans-serif; background: #0a0a0a; color: white; margin: 0; text-align: center; }
-    .header { background: #00ff00; color: black; padding: 15px; font-weight: bold; display: flex; justify-content: space-around; align-items: center; }
-    .main-grid { display: grid; grid-template-columns: 3fr 1fr; gap: 15px; padding: 15px; }
-    .video-container { position: relative; background: #000; border-radius: 20px; border: 2px solid #333; overflow: hidden; }
-    canvas, #replay { width: 100%; height: auto; border-radius: 15px; }
-    .sidebar { background: #151515; padding: 15px; border-radius: 20px; border: 1px solid #333; max-height: 85vh; overflow-y: auto; }
-    .control-panel { background: #111; padding: 15px; border-radius: 15px; margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; }
-    button { padding: 10px 15px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
-    .btn-start { background: #00ff00; color: black; }
-    .btn-rec { background: #ff4444; color: white; }
-    .btn-audio { background: #00aaff; color: white; }
-    select, input[type="range"] { padding: 8px; border-radius: 5px; background: #333; color: white; border: 1px solid #00ff00; }
-    .status-bar { font-size: 20px; font-weight: bold; margin: 10px; padding: 10px; border-radius: 10px; background: rgba(255,255,255,0.05); }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
-    th, td { border: 1px solid #333; padding: 8px; }
-    th { background: #00ff00; color: black; }
+    body { font-family: 'Segoe UI', -apple-system, sans-serif; background: #0c0c0e; color: #f5f5f7; margin: 0; padding-bottom: 30px; }
+    .header { background: #00ff00; color: #000; padding: 15px 25px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,255,0,0.15); font-size: 1.1rem; }
+    .header input, .header select { background: rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.2); padding: 6px; border-radius: 6px; font-weight: bold; }
+    
+    .main-grid { display: grid; grid-template-columns: 3fr 1fr; gap: 20px; padding: 20px; max-width: 1600px; margin: 0 auto; }
+    @media (max-width: 1024px) { .main-grid { grid-template-columns: 1fr; } }
+
+    .video-container { position: relative; background: #000; border-radius: 20px; border: 1px solid #222; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    canvas, #replay { width: 100%; height: auto; display: block; border-radius: 0 0 20px 20px; }
+    
+    .control-panel { background: #141416; padding: 15px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; align-items: center; border-bottom: 1px solid #222; }
+    
+    button { padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: 700; transition: all 0.2s ease; display: flex; align-items: center; gap: 8px; }
+    button:hover { transform: translateY(-2px); opacity: 0.9; }
+    .btn-start { background: #00ff00; color: #000; }
+    .btn-rec { background: #ff4444; color: #fff; }
+    .btn-mute { background: #222; color: #fff; border: 1px solid #444; }
+
+    select, input[type="range"] { padding: 10px; border-radius: 8px; background: #1e1e22; color: #fff; border: 1px solid #333; }
+    select:focus { border-color: #00ff00; outline: none; }
+
+    .status-bar { font-size: 24px; font-weight: 800; padding: 15px; text-align: center; background: rgba(255,255,255,0.02); letter-spacing: 0.5px; transition: color 0.3s ease; }
+    
+    .sidebar { display: flex; flex-direction: column; gap: 20px; }
+    .card { background: #141416; padding: 20px; border-radius: 20px; border: 1px solid #222; }
+    .card h3 { margin-top: 0; margin-bottom: 15px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px; color: #888; border-bottom: 1px solid #222; padding-bottom: 8px; }
+    
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+    .stat-box { background: #1e1e22; padding: 12px; border-radius: 10px; text-align: center; border: 1px solid #2c2c32; }
+    .stat-val { font-size: 1.5rem; font-weight: 700; color: #00ff00; }
+    .stat-lbl { font-size: 0.75rem; color: #666; margin-top: 4px; }
+
+    .table-wrapper { max-height: 200px; overflow-y: auto; border-radius: 8px; border: 1px solid #222; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+    th, td { padding: 10px; border-bottom: 1px solid #222; }
+    th { background: #1e1e22; color: #888; font-weight: 600; position: sticky; top: 0; }
+    
+    .chart-container { position: relative; height: 180px; width: 100%; }
   </style>
 </head>
 <body>
 
   <div class="header">
-    <span>AGBB AI - PERFORMANCE v6.1</span>
-    <div>Gardien : <input type="text" id="gkName" value="Gardien_1" style="width:100px;"></div>
-    <div style="display:flex; align-items:center; gap:10px;">
-        <span>🔊</span>
-        <input type="range" id="volRange" min="0" max="1" step="0.1" value="0.8">
-        <button id="muteBtn" onclick="toggleMute()">COUPE SON</button>
+    <div>AGBB AI - PRO PERFORMANCE v7.0</div>
+    <div>Gardien : <input type="text" id="gkName" value="Gardien_1" onchange="loadGkStats()" style="width:120px; color:#000;"></div>
+    <div style="display:flex; align-items:center; gap:15px;">
+        <select id="levelSelect" onchange="updateDifficulty()">
+          <option value="160">Niveau : Débutant (160°)</option>
+          <option value="150" selected>Niveau : Intermédiaire (150°)</option>
+          <option value="142">Niveau : Expert / Pro (142°)</option>
+        </select>
+        <div style="display:flex; align-items:center; gap:8px;">
+            <span>🔊</span>
+            <input type="range" id="volRange" min="0" max="1" step="0.1" value="0.8">
+            <button id="muteBtn" class="btn-mute" onclick="toggleMute()">COUPE SON</button>
+        </div>
     </div>
   </div>
 
@@ -42,31 +74,48 @@
     <div class="video-container">
       <div class="control-panel">
         <select id="camSelect">
-            <option value="user">Caméra Avant (Selfie)</option>
-            <option value="environment" selected>Caméra Arrière (Terrain)</option>
+            <option value="user">📷 Caméra Avant (Selfie)</option>
+            <option value="environment" selected>🏟️ Caméra Arrière (Terrain)</option>
         </select>
-        <button class="btn-start" onclick="initCamera()">▶️ LANCER</button>
+        <button class="btn-start" onclick="initCamera()">▶️ LANCER L'ANALYSE</button>
         <button id="recBtn" class="btn-rec" style="display:none;" onclick="toggleRecord()">🔴 REC</button>
         <select id="slowMo" onchange="updateReplaySpeed()">
-            <option value="1">1x</option>
-            <option value="0.5">0.5x</option>
-            <option value="0.1">0.1x</option>
+            <option value="1">Vitesse : 1x (Normal)</option>
+            <option value="0.5">Vitesse : 0.5x (Ralenti)</option>
+            <option value="0.1">Vitesse : 0.1x (Analyse Geste)</option>
         </select>
       </div>
 
-      <div id="feedback" class="status-bar">EN ATTENTE...</div>
+      <div id="feedback" class="status-bar">SYSTÈME EN ATTENTE...</div>
       <canvas id="out_canvas" width="1280" height="720"></canvas>
       <video id="in_video" style="display:none;" playsinline muted></video>
       <video id="replay" style="display:none;" controls></video>
     </div>
 
     <div class="sidebar">
-      <h3>LOG SESSION</h3>
-      <table id="logTable">
-        <thead><tr><th>Heure</th><th>Genou D/G</th><th>Mains</th></tr></thead>
-        <tbody></tbody>
-      </table>
-      <button style="margin-top:20px; width:100%;" onclick="exportCSV()">💾 EXPORT DATA</button>
+      <!-- Tableau de bord Session -->
+      <div class="card">
+        <h3>Statistiques Session</h3>
+        <div class="stats-grid">
+          <div class="stat-box"><div class="stat-val" id="statRatio">0%</div><div class="stat-lbl">Temps fléchi</div></div>
+          <div class="stat-box"><div class="stat-val" id="statBalance">Centre</div><div class="stat-lbl">Équilibre Moyen</div></div>
+        </div>
+        <div class="chart-container">
+          <canvas id="liveChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Logs et export -->
+      <div class="card">
+        <h3>Log d'Analyse</h3>
+        <div class="table-wrapper">
+          <table id="logTable">
+            <thead><tr><th>Heure</th><th>Genoux (D/G)</th><th>Posture</th></tr></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <button style="margin-top:15px; width:100%; background:#222; color:#fff; border:1px solid #333;" onclick="exportCSV()">💾 EXPORT CSV</button>
+      </div>
     </div>
   </div>
 
@@ -78,19 +127,58 @@
     const replay = document.getElementById('replay');
     const volRange = document.getElementById('volRange');
     
-    let currentStream, recorder, chunks = [], isMuted = false, lastSpeak = 0, cameraActive = null;
+    let currentStream, recorder, chunks = [], isMuted = false, cameraActive = null;
+    let lastSpeak = 0, targetAngle = 150, goodPositionStartTime = 0;
+    
+    // Variables de statistiques
+    let totalFrames = 0, lowFrames = 0;
+    let chartInstance = null;
+    let chartDataBuffer = [];
+
+    // Initialisation du Graphique Chart.js
+    function initChart() {
+        const chartCtx = document.getElementById('liveChart').getContext('2d');
+        chartInstance = new Chart(chartCtx, {
+            type: 'line',
+            data: {
+                labels: Array(20).fill(''),
+                datasets: [{
+                    label: 'Angle Moyen Genoux',
+                    data: Array(20).fill(180),
+                    borderColor: '#00ff00',
+                    borderWidth: 2,
+                    tension: 0.3,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { min: 90, max: 180, grid: { color: '#222' }, ticks: { color: '#666' } },
+                    x: { display: false }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+    }
+
+    function updateDifficulty() {
+        targetAngle = parseInt(document.getElementById('levelSelect').value);
+    }
 
     function toggleMute() {
         isMuted = !isMuted;
-        document.getElementById('muteBtn').innerText = isMuted ? "ACTIVER SON" : "COUPE SON";
-        document.getElementById('muteBtn').style.background = isMuted ? "#00ff00" : "#ff4444";
-        document.getElementById('muteBtn').style.color = isMuted ? "black" : "white";
+        const btn = document.getElementById('muteBtn');
+        btn.innerText = isMuted ? "ACTIVER SON" : "COUPE SON";
+        btn.style.background = isMuted ? "#ff4444" : "#222";
     }
 
-    function talk(text) {
+    function talk(text, overrideCooldown = false) {
         if (isMuted) return;
         const now = Date.now();
-        if (now - lastSpeak > 3500) {
+        if (overrideCooldown || (now - lastSpeak > 3000)) {
+            window.speechSynthesis.cancel(); // Stoppe la phrase d'avant pour éviter le décalage
             const msg = new SpeechSynthesisUtterance(text);
             msg.lang = 'fr-FR';
             msg.volume = parseFloat(volRange.value);
@@ -105,8 +193,7 @@
         let b = Math.sqrt(Math.pow(C.x-A.x, 2) + Math.pow(C.y-A.y, 2));
         let c = Math.sqrt(Math.pow(B.x-A.x, 2) + Math.pow(B.y-A.y, 2));
         if (2 * a * c === 0) return 180;
-        let angle = Math.acos((a*a+c*c-b*b)/(2*a*c)) * (180/Math.PI);
-        return Math.round(angle);
+        return Math.round(Math.acos((a*a+c*c-b*b)/(2*a*c)) * (180/Math.PI));
     }
 
     function onResults(res) {
@@ -116,43 +203,116 @@
 
         if (res.poseLandmarks) {
             const p = res.poseLandmarks;
+            totalFrames++;
             
-            // Calcul des angles pour les deux genoux (Droit: 24-26-28, Gauche: 23-25-27)
+            // 1. Calcul biomécanique des angles de genoux
             const angDroit = calculateAngle(p[24], p[26], p[28]);
             const angGauche = calculateAngle(p[23], p[25], p[27]);
+            const avgAngle = Math.round((angDroit + angGauche) / 2);
             
-            // On prend le genou le plus bas/fléchi visible ou une moyenne si de face
-            // Pour être considéré comme "Prêt", au moins un des deux genoux actifs doit être fléchi
-            const isLow = angDroit < 155 || angGauche < 155;
+            const isLow = angDroit < targetAngle || angGauche < targetAngle;
+            if (isLow) lowFrames++;
 
-            // Normalisation de la distance des mains par rapport à la largeur des épaules (points 11 et 12)
+            // 2. Normalisation morphologique de la distance des mains (Index Épaules)
             const distEpaules = Math.sqrt(Math.pow(p[11].x - p[12].x, 2) + Math.pow(p[11].y - p[12].y, 2));
-            const distMainsAbsolue = Math.sqrt(Math.pow(p[15].x - p[16].x, 2) + Math.pow(p[15].y - p[16].y, 2));
-            
-            // Ratio basé sur la morphologie à l'écran (0.5 signifie que l'écart des mains fait la moitié de la largeur des épaules)
-            const ratioMains = distEpaules > 0 ? (distMainsAbsolue / distEpaules) : 0.5;
+            const distMains = Math.sqrt(Math.pow(p[15].x - p[16].x, 2) + Math.pow(p[15].y - p[16].y, 2));
+            const ratioMains = distEpaules > 0 ? (distMains / distEpaules) : 0.5;
             const handsOk = ratioMains < 0.65; 
 
-            const color = isLow ? "#00FF00" : "#FF0000";
-
-            drawConnectors(ctx, p, POSE_CONNECTIONS, {color: color, lineWidth: 4});
+            // 3. Calcul de l'équilibre latéral (Centre de gravité du bassin vs pieds)
+            const centreBassinX = (p[23].x + p[24].x) / 2;
+            const centrePiedsX = (p[27].x + p[28].x) / 2;
+            const decalageEcart = centreBassinX - centrePiedsX;
             
-            feedback.innerText = isLow ? "POSITION : PRÊT ✅" : "POSITION : TROP HAUT ! ❌";
-            feedback.style.color = color;
+            let balanceText = "CENTRE";
+            let balanceColor = "#00FF00";
+            if (decalageEcart > 0.04) { balanceText = "ALERTE : PENCHÉ GAUCHE"; balanceColor = "#ffaa00"; }
+            else if (decalageEcart < -0.04) { balanceText = "ALERTE : PENCHÉ DROIT"; balanceColor = "#ffaa00"; }
 
+            // Mise à jour de la couleur d'affichage globale
+            const uiColor = isLow ? "#00FF00" : "#FF0000";
+
+            // 4. Dessin du HUD intelligent à l'écran
+            drawConnectors(ctx, p, POSE_CONNECTIONS, {color: uiColor, lineWidth: 4});
+            
+            // Ligne repère horizontale virtuelle (HUD) basée sur les hanches
+            const hancheY = ((p[23].y + p[24].y) / 2) * canvas.height;
+            ctx.beginPath();
+            ctx.moveTo(0, hancheY);
+            ctx.lineTo(canvas.width, hancheY);
+            ctx.strokeStyle = isLow ? "rgba(0, 255, 0, 0.4)" : "rgba(255, 0, 0, 0.4)";
+            ctx.lineWidth = 3;
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // 5. Moteur de décision temps réel & Coach vocal intelligent
             if (!isLow) {
+                feedback.innerText = "POSITION : TROP HAUT ! ❌";
+                feedback.style.color = "#FF0000";
                 talk("Baisse-toi");
-            } else if (!handsOk) {
-                talk("Ferme les mains");
+                goodPositionStartTime = 0; // Reset du timer positif
+            } else {
+                if (!handsOk) {
+                    feedback.innerText = "ATTENTION : MAINS TROP OUVERTES 👐";
+                    feedback.style.color = "#ffaa00";
+                    talk("Ferme les mains");
+                    goodPositionStartTime = 0;
+                } else {
+                    feedback.innerText = `POSITION VALIDE ✅ (${balanceText})`;
+                    feedback.style.color = balanceColor;
+                    
+                    // Renforcement positif automatique
+                    if (goodPositionStartTime === 0) {
+                        goodPositionStartTime = Date.now();
+                    } else if (Date.now() - goodPositionStartTime > 2500) {
+                        talk("Excellente position !", true); // Prioritaire
+                        goodPositionStartTime = Date.now() + 5000; // Évite les répétitions en continu
+                    }
+                }
             }
 
+            // 6. Tableau de bord & Mise à jour Graphique (Optimisé toutes les 5 frames)
+            if (totalFrames % 5 === 0) {
+                document.getElementById('statRatio').innerText = Math.round((lowFrames / totalFrames) * 100) + "%";
+                document.getElementById('statBalance').innerText = balanceText.replace("ALERTE : ", "");
+                document.getElementById('statBalance').style.color = balanceColor;
+
+                if (chartInstance) {
+                    chartInstance.data.datasets[0].data.shift();
+                    chartInstance.data.datasets[0].data.push(avgAngle);
+                    chartInstance.data.datasets[0].borderColor = uiColor;
+                    chartInstance.update('none');
+                }
+            }
+
+            // 7. Enregistrement aléatoire ciblé dans les logs historiques
             if (Math.random() > 0.98) {
                 const time = new Date().toLocaleTimeString().split(' ')[0];
                 const row = document.getElementById('logTable').tBodies[0].insertRow(0);
-                row.innerHTML = `<td>${time}</td><td>D:${angDroit}° / G:${angGauche}°</td><td>${handsOk?'OK':'KO'}</td>`;
+                let postureDesc = isLow ? "Prêt" : "Trop Haut";
+                if (balanceText !== "CENTRE") postureDesc += " + Désaxé";
+                row.innerHTML = `<td>${time}</td><td>D:${angDroit}° / G:${angGauche}°</td><td>${postureDesc}</td>`;
+                saveSessionDataToLocal();
             }
         }
         ctx.restore();
+    }
+
+    // Persistance locale des données
+    function saveSessionDataToLocal() {
+        const gk = document.getElementById('gkName').value;
+        const stats = { ratio: document.getElementById('statRatio').innerText, date: new Date().toLocaleDateString() };
+        localStorage.setItem(`AGBB_${gk}`, JSON.stringify(stats));
+    }
+
+    function loadGkStats() {
+        const gk = document.getElementById('gkName').value;
+        const saved = localStorage.getItem(`AGBB_${gk}`);
+        if(saved) {
+            const data = JSON.parse(saved);
+            feedback.innerText = `Dernière session de ${gk} (${data.date}) : ${data.ratio} d'efficacité`;
+        }
     }
 
     const pose = new Pose({locateFile: (f) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${f}`});
@@ -161,8 +321,11 @@
 
     async function initCamera() {
         if (cameraActive) { cameraActive.stop(); }
-        const mode = document.getElementById('camSelect').value;
+        initChart();
+        updateDifficulty();
+        loadGkStats();
         
+        const mode = document.getElementById('camSelect').value;
         canvas.style.display = 'block'; replay.style.display = 'none';
         document.getElementById('recBtn').style.display = 'inline-block';
 
@@ -172,13 +335,14 @@
             facingMode: mode
         });
         cameraActive.start();
-        talk("Système AGBB activé.");
+        talk("Système d'analyse v7 activé.");
     }
 
     function toggleRecord() {
         if (recorder && recorder.state === "recording") {
             recorder.stop();
             document.getElementById('recBtn').innerText = "🔴 REC";
+            document.getElementById('recBtn').style.background = "#ff4444";
         } else {
             chunks = [];
             recorder = new MediaRecorder(canvas.captureStream(30));
@@ -189,18 +353,20 @@
             };
             recorder.start();
             document.getElementById('recBtn').innerText = "⏹ STOP";
+            document.getElementById('recBtn').style.background = "#ffffff";
+            document.getElementById('recBtn').style.color = "#000000";
         }
     }
 
     function updateReplaySpeed() { replay.playbackRate = document.getElementById('slowMo').value; }
     
     function exportCSV() {
-        let csv = "Heure;Angle Genoux;Mains\n";
+        let csv = "Heure;Angles Genoux;Analyse Posture\n";
         document.querySelectorAll("#logTable tbody tr").forEach(tr => {
             csv += `${tr.cells[0].innerText};${tr.cells[1].innerText};${tr.cells[2].innerText}\n`;
         });
         const b = new Blob([csv], {type:'text/csv;charset=utf-8;'});
-        const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download="AGBB_Export.csv"; a.click();
+        const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download=`AGBB_${document.getElementById('gkName').value}.csv`; a.click();
     }
   </script>
 </body>
