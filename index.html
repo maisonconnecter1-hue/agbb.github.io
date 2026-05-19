@@ -52,7 +52,7 @@
       justify-content: space-between; align-items: center; border-bottom: 3px solid #fff;
     }
     .header-logo-area { display: flex; align-items: center; gap: 15px; }
-    .header-logo-area img { width: 45px; height: 45px; object-fit: contain; }
+    .header-logo-area img { width: 45px; height: 45px; border-radius: 50%; object-fit: contain; }
     .header input, .header select { background: #fff; border: 2px solid var(--agbb-navy); padding: 8px; border-radius: 6px; font-weight: bold; color: #000; }
 
     /* ONGLETS */
@@ -106,7 +106,7 @@
       <p style="color: #cbd5e0; font-size: 0.9rem;">Authentification Éducateurs & Admin</p>
       <input type="email" id="loginEmail" placeholder="Adresse Email Éducateur">
       <input type="password" id="loginPassword" placeholder="Mot de passe">
-      <button class="btn-start" style="width:100%; margin-top:15px;" onclick="handleLogin()">SE CONNECTER</button>
+      <button class="btn-start" style="width:100%; margin-top:15px;" id="loginBtn">SE CONNECTER</button>
       <p id="loginError" style="color:var(--agbb-red); font-weight:bold; margin-top:15px; display:none;"></p>
     </div>
   </div>
@@ -121,13 +121,13 @@
       <input type="text" id="gkName" value="Gardien_1" style="width:140px; text-align:center;">
     </div>
     <div>
-        <select id="levelSelect" onchange="updateDifficulty()">
+        <select id="levelSelect">
           <option value="160">Niveau : Débutant (160°)</option>
           <option value="150" selected>Niveau : Intermédiaire (150°)</option>
           <option value="142">Niveau : Expert / Élite Pro (142°)</option>
         </select>
     </div>
-    <button class="btn-danger" style="padding: 6px 12px; font-size:0.8rem;" onclick="handleLogout()">🚪 DECONNEXION</button>
+    <button class="btn-danger" style="padding: 6px 12px; font-size:0.8rem;" id="logoutBtn">🚪 DECONNEXION</button>
   </div>
 
   <div class="tabs-nav">
@@ -144,9 +144,9 @@
               <option value="environment" selected>🏟️ Caméra Arrière</option>
               <option value="user">📷 Caméra Avant</option>
           </select>
-          <button class="btn-start" onclick="initCamera()">▶️ LANCER LA CAMÉRA IA</button>
-          <button class="btn-action" onclick="startReactionTest()">⏱️ TEST DE RÉACTION</button>
-          <button class="btn-orange" onclick="startChallenge30s()">🏆 DÉFI 30 SECONDES</button>
+          <button class="btn-start" id="startCamBtn">▶️ LANCER LA CAMÉRA IA</button>
+          <button class="btn-action" id="reactTestBtn">⏱️ TEST DE RÉACTION</button>
+          <button class="btn-orange" id="challengeBtn">🏆 DÉFI 30 SECONDES</button>
         </div>
 
         <div id="feedback" class="status-bar" style="color: #cbd5e0;">EN ATTENTE DU FLUX...</div>
@@ -186,22 +186,22 @@
       <div class="card" style="display:flex; flex-direction:column; gap:15px;">
         <h3>Filtres Académie</h3>
         <label>Catégorie :</label>
-        <select id="ageCategory" onchange="updateExerciseList()">
+        <select id="ageCategory">
           <option value="u11" selected>U11 / U13 (Initiation)</option>
           <option value="u15">U15 / U17 (Perfectionnement)</option>
           <option value="senior">Séniors / Élite</option>
         </select>
         
         <label>Thème Spécifique :</label>
-        <select id="themeSelect" onchange="updateExerciseList()">
+        <select id="themeSelect">
           <option value="plongeon" selected>Plongeon & Souplesse</option>
           <option value="face">Face-à-face & Fermeture</option>
           <option value="appuis">Vitesse d'appuis & Relances</option>
         </select>
         
         <label>Choisir un Exercice (1 à 20) :</label>
-        <select id="exoSelector" onchange="generateExercise()"></select>
-        <button class="btn-start" onclick="generateExercise()">🔄 CHARGER LE SCHÉMA</button>
+        <select id="exoSelector"></select>
+        <button class="btn-start" id="loadExoBtn">🔄 CHARGER LE SCHÉMA</button>
       </div>
 
       <div class="exo-viewer">
@@ -228,8 +228,7 @@
                 <th>Performance Enregistrée</th>
               </tr>
             </thead>
-            <tbody id="adminLiveTableBody">
-              </tbody>
+            <tbody id="adminLiveTableBody"></tbody>
           </table>
         </div>
       </div>
@@ -239,9 +238,9 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, collection, addDoc, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Configuration Firebase officielle de ton projet insérée ici avec succès !
+    // Ta configuration officielle
     const firebaseConfig = {
       apiKey: "AIzaSyDlfZwFGbspkxM2oZkC7wwXY7jqxnnLdh0",
       authDomain: "agbb-ai.firebaseapp.com",
@@ -257,33 +256,20 @@
 
     let currentUserObj = null;
     let isAdmin = false;
+    let targetAngle = 150;
+    let cameraActive = null;
+    let testState = "idle"; 
+    let bipTime = 0, challengeTimer = null, challengeScore = 0, challengeEnd = 0;
+    let liveChartInstance = null;
 
-    // Gestion de la connexion terrain
-    window.handleLogin = async function() {
-      const email = document.getElementById('loginEmail').value;
-      const pass = document.getElementById('loginPassword').value;
-      const errorDiv = document.getElementById('loginError');
-      errorDiv.style.display = "none";
-
-      try {
-        await signInWithEmailAndPassword(auth, email, pass);
-      } catch (error) {
-        errorDiv.innerText = "Identifiants invalides ou compte non créé dans l'onglet Authentication.";
-        errorDiv.style.display = "block";
-      }
-    }
-
-    window.handleLogout = function() {
-      signOut(auth);
-    }
-
-    // Gestion automatique des profils (Toi en admin principal ou tes éducateurs)
+    // Écouteur global d'authentification (Résout le blocage d'écran)
     onAuthStateChanged(auth, (user) => {
+      const loginScreen = document.getElementById('login-screen');
       if (user) {
         currentUserObj = user;
-        document.getElementById('login-screen').style.display = "none";
+        loginScreen.style.display = "none";
         
-        // Vérification si le compte connecté est le tien (Admin)
+        // Cible ton rôle de Super-Administrateur principal
         if(user.email === "admin@agbb.fr" || user.email === "thibault@agbb.fr") {
           isAdmin = true;
           document.getElementById('admin-nav-btn').style.display = "block";
@@ -295,11 +281,29 @@
           document.getElementById('app-title').innerText = `AGBB PRO AI - SESSION ÉDUCATEUR (${user.email})`;
         }
       } else {
-        document.getElementById('login-screen').style.display = "flex";
+        loginScreen.style.display = "flex";
       }
     });
 
-    // Envoi instantané en base de données
+    // Gestionnaires d'événements d'authentification
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value;
+      const pass = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('loginError');
+      errorDiv.style.display = "none";
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+      } catch (error) {
+        errorDiv.innerText = "Identifiants invalides ou profil absent de la Console Firebase.";
+        errorDiv.style.display = "block";
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      signOut(auth);
+    });
+
+    // Envoi des métriques terrain au Cloud
     async function savePerformanceToCloud(typeActivite, scoreValeur) {
       if(!currentUserObj) return;
       try {
@@ -312,11 +316,11 @@
           timestamp: Date.now()
         });
       } catch (e) {
-        console.error("Erreur de sauvegarde Cloud : ", e);
+        console.error("Erreur d'écriture Firebase : ", e);
       }
     }
 
-    // Flux en temps réel exclusif pour ton écran Administrateur
+    // Réception du stream Administrateur (Temps Réel)
     function initAdminLiveStream() {
       const q = query(collection(db, "performances"), orderBy("timestamp", "desc"), limit(50));
       onSnapshot(q, (snapshot) => {
@@ -329,7 +333,6 @@
           row.insertCell(1).innerText = data.educateur;
           row.insertCell(2).innerText = data.gardien;
           row.insertCell(3).innerText = data.activite;
-          
           let cellRes = row.insertCell(4);
           cellRes.innerText = data.resultat;
           cellRes.style.fontWeight = "bold";
@@ -338,13 +341,7 @@
       });
     }
 
-    // --- LOGIQUE MOTEUR IA & BANQUE D'EXERCICES ---
-    let targetAngle = 150;
-    let cameraActive = null;
-    let testState = "idle"; 
-    let bipTime = 0, challengeTimer = null, challengeScore = 0, challengeEnd = 0;
-    let liveChartInstance = null;
-
+    // Graphique en direct
     function initChart() {
         const ctxChart = document.getElementById('liveChart').getContext('2d');
         liveChartInstance = new Chart(ctxChart, {
@@ -373,15 +370,21 @@
         });
     }
 
+    // Changement d'onglet global
     window.switchTab = function(id) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.getElementById(`btn-tab-${id === 'admin' ? 'analyser' : id}`)?.classList.add('active');
-        if(id === 'admin') document.getElementById('admin-nav-btn').classList.add('active');
+        
+        if(id === 'admin') {
+            document.getElementById('admin-nav-btn').classList.add('active');
+        } else {
+            document.getElementById(`btn-tab-${id}`).classList.add('active');
+        }
         document.getElementById(`tab-${id}`).classList.add('active');
         if(id === 'exercices') updateExerciseList();
     }
 
+    // Moteur de la Banque de Données des 60 Séances Tactiques
     const exerciseDatabase = {
         u11: {
             plongeon: Array.from({length: 20}, (_, i) => ({ title: `U11 - Plongeon Tactique Ex.${i+1}`, desc: `Fiche U11 n°${i+1} : Apprentissage du plongeon au sol. Le coach lance la balle rasant la ligne de but, le gardien doit s'allonger en verrouillant ses appuis bas.`, draw: (ctx) => drawFieldLayout(ctx, 380, 430) })),
@@ -400,7 +403,7 @@
         }
     };
 
-    window.updateExerciseList = function() {
+    function updateExerciseList() {
         const age = document.getElementById('ageCategory').value;
         const theme = document.getElementById('themeSelect').value;
         const selector = document.getElementById('exoSelector');
@@ -413,7 +416,7 @@
         generateExercise();
     }
 
-    window.generateExercise = function() {
+    function generateExercise() {
         const age = document.getElementById('ageCategory').value;
         const theme = document.getElementById('themeSelect').value;
         const index = document.getElementById('exoSelector').value || 0;
@@ -433,7 +436,8 @@
         ctx.fillStyle = "#ffffff"; ctx.beginPath(); ctx.arc(400, 260, 7, 0, Math.PI*2); ctx.fill(); ctx.stroke();
     }
 
-    window.startReactionTest = function() {
+    // Gestionnaires d'exercices terrain
+    document.getElementById('reactTestBtn').addEventListener('click', () => {
         testState = "waiting_bip";
         document.getElementById('feedback').innerText = "🛑 RESTEZ EN POSITION... ATTENDEZ LE SIGNAL !";
         document.getElementById('feedback').style.color = "#dd6b20";
@@ -446,28 +450,33 @@
                 const osc = audioCtx.createOscillator(); osc.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.15);
             }
         }, Math.random() * 3000 + 2000);
-    }
+    });
 
-    window.startChallenge30s = function() {
+    document.getElementById('challengeBtn').addEventListener('click', () => {
         testState = "challenge_active"; challengeScore = 0; challengeEnd = Date.now() + 30000;
         if(challengeTimer) clearInterval(challengeTimer);
         challengeTimer = setInterval(() => {
             const rem = Math.round((challengeEnd - Date.now()) / 1000);
             if(rem <= 0) {
                 clearInterval(challengeTimer); testState = "idle";
-                document.getElementById('feedback').innerText = `🏆 FIN DU COMPTEUR ! SCORE ENVOYÉ À L'ADMIN : ${challengeScore} REPETITIONS`;
+                document.getElementById('feedback').innerText = `🏆 FIN ! COMPTEUR TRANSMIS : ${challengeScore} REPETITIONS`;
                 savePerformanceToCloud("Défi 30 secondes", `${challengeScore} Répets`);
             } else {
                 document.getElementById('feedback').innerText = `⏳ TIMING : ${rem}s | APPUIS ÉLITE : ${challengeScore}`;
             }
         }, 200);
-    }
+    });
 
-    window.updateDifficulty = function() { targetAngle = parseInt(document.getElementById('levelSelect').value); }
-    const videoElement = document.getElementById('in_video');
-    const canvasElement = document.getElementById('out_canvas');
-    const canvasCtx = canvasElement.getContext('2d');
+    document.getElementById('levelSelect').addEventListener('change', (e) => {
+        targetAngle = parseInt(e.target.value);
+    });
 
+    document.getElementById('loadExoBtn').addEventListener('click', generateExercise);
+    document.getElementById('ageCategory').addEventListener('change', updateExerciseList);
+    document.getElementById('themeSelect').addEventListener('change', updateExerciseList);
+    document.getElementById('exoSelector').addEventListener('change', generateExercise);
+
+    // Analyseur Angulaire IA
     function calculateAngle(p1, p2, p3) {
         let rad = Math.atan2(p3.y - p2.y, p3.x - p2.x) - Math.atan2(p1.y - p2.y, p1.x - p2.x);
         let deg = Math.abs((rad * 180.0) / Math.PI);
@@ -501,16 +510,24 @@
         }
     }
 
-    window.initCamera = function() {
+    const videoElement = document.getElementById('in_video');
+    const canvasElement = document.getElementById('out_canvas');
+    const canvasCtx = canvasElement.getContext('2d');
+
+    document.getElementById('startCamBtn').addEventListener('click', () => {
         const pose = new Pose({ locateFile: (f) => `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${f}` });
         pose.setOptions({ modelComplexity: 1, smoothLandmarks: true, minDetectionConfidence: 0.6, minTrackingConfidence: 0.6 });
         pose.onResults(onPoseResults);
         if(cameraActive) cameraActive.stop();
         cameraActive = new Camera(videoElement, { onFrame: async () => { await pose.send({ image: videoElement }); }, width: 1280, height: 720, facingMode: document.getElementById('camSelect').value });
         cameraActive.start();
-    }
+    });
 
-    window.onload = function() { initChart(); updateExerciseList(); };
+    // Lancement propre au démarrage
+    window.addEventListener('DOMContentLoaded', () => {
+        initChart(); 
+        updateExerciseList();
+    });
   </script>
 </body>
 </html>
